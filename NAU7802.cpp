@@ -12,7 +12,7 @@ NAU7802::NAU7802() {
   boolean NAU7802::begin(uint8_t addr, TwoWire &I2C_wire) {
     _i2caddr = addr;
     _wire = &I2C_wire; // passthrough complete
-    // _wire.begin();
+    // _wire->begin();
     resetSettings();
     return true;
   }
@@ -20,7 +20,7 @@ NAU7802::NAU7802() {
   boolean NAU7802::begin(uint8_t addr, TwoWire &I2C_wire) {
     _i2caddr = addr;
     _wire = &I2C_wire; // passthrough complete
-    // _wire.begin(sda,scl);
+    // _wire->begin(sda,scl);
     resetSettings();
     return true;
   }
@@ -28,7 +28,7 @@ NAU7802::NAU7802() {
   boolean NAU7802::begin(uint8_t addr, TwoWire &I2C_wire) {
     _i2caddr = addr;
     _wire = &I2C_wire; // passthrough complete
-    // _wire.begin();
+    // _wire->begin();
     resetSettings();
     return true;
   }
@@ -206,10 +206,10 @@ void NAU7802::avcc4V5(){
 //===================================
 
 void NAU7802::write(uint8_t reg, uint8_t val) {
-  _wire.beginTransmission(_i2caddr);
-  _wire.write((uint8_t)reg);
-  _wire.write(val);
-  _wire.endTransmission();
+  _wire->beginTransmission(_i2caddr);
+  _wire->write((uint8_t)reg);
+  _wire->write(val);
+  _wire->endTransmission();
 }
 
 void NAU7802::writeBit(uint8_t reg, uint8_t bit) {
@@ -223,12 +223,12 @@ void NAU7802::clearBit(uint8_t reg, uint8_t bit) {
 }
 
 uint8_t NAU7802::read(uint8_t reg) {
-  _wire.beginTransmission(_i2caddr);
-  _wire.write((uint8_t)reg);
-  _wire.endTransmission();
+  _wire->beginTransmission(_i2caddr);
+  _wire->write((uint8_t)reg);
+  _wire->endTransmission();
 
-  _wire.requestFrom((uint8_t)_i2caddr, (uint8_t)1);
-  return _wire.read();
+  _wire->requestFrom((uint8_t)_i2caddr, (uint8_t)1);
+  return _wire->read();
 }
 
 boolean NAU7802::readBit(uint8_t reg, uint8_t bit){
@@ -243,34 +243,34 @@ boolean NAU7802::readBit(uint8_t reg, uint8_t bit){
 uint32_t NAU7802::read24(uint8_t reg) {
   uint32_t val;
 
-  _wire.beginTransmission(_i2caddr);
-  _wire.write((uint8_t)reg);
-  _wire.endTransmission();
+  _wire->beginTransmission(_i2caddr);
+  _wire->write((uint8_t)reg);
+  _wire->endTransmission();
 
-  _wire.requestFrom((uint8_t)_i2caddr, (uint8_t)3);
-  val = _wire.read();    // receive high byte
+  _wire->requestFrom((uint8_t)_i2caddr, (uint8_t)3);
+  val = _wire->read();    // receive high byte
   val <<= 8;            // shift byte to make room for new byte
-  val |= _wire.read();   // receive mid byte
+  val |= _wire->read();   // receive mid byte
   val <<= 8;            // shift both bytes
-  val |= _wire.read();   // receive low byte
+  val |= _wire->read();   // receive low byte
   return val;
 }
 
 uint32_t NAU7802::read32(uint8_t reg) {
   uint32_t val;
 
-  _wire.beginTransmission(_i2caddr);
-  _wire.write((uint8_t)reg);
-  _wire.endTransmission();
+  _wire->beginTransmission(_i2caddr);
+  _wire->write((uint8_t)reg);
+  _wire->endTransmission();
 
-  _wire.requestFrom((uint8_t)_i2caddr, (uint8_t)4);
-  val = _wire.read();    // receive [31:24] byte
+  _wire->requestFrom((uint8_t)_i2caddr, (uint8_t)4);
+  val = _wire->read();    // receive [31:24] byte
   val <<= 8;            // shift byte
-  val = _wire.read();    // receive [23:16] byte
+  val = _wire->read();    // receive [23:16] byte
   val <<= 8;            // shift bytes
-  val |= _wire.read();   // receive [15:08] byte
+  val |= _wire->read();   // receive [15:08] byte
   val <<= 8;            // shift bytes
-  val |= _wire.read();   // receive [07:00] byte
+  val |= _wire->read();   // receive [07:00] byte
   return val;
 }
 
