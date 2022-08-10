@@ -100,11 +100,11 @@ class NAU7802 {
   NAU7802();
 
   #if defined NAU7802_SOFTWAREWIRE
-    boolean begin(uint8_t addr = NAU7802_I2CADDR, TwoWire &I2C_wire); // pass i2c connection from main program
+    boolean begin(uint8_t addr, TwoWire &I2C_wire); // pass i2c connection from main program
   #elif defined ESP8266
-    boolean begin(uint8_t addr = NAU7802_I2CADDR, TwoWire &I2C_wire); // pass i2c connection from main program
+    boolean begin(uint8_t addr, TwoWire &I2C_wire); // pass i2c connection from main program
   #else
-    boolean begin(uint8_t addr = NAU7802_I2CADDR, TwoWire &I2C_wire); // pass i2c connection from main program
+    boolean begin(uint8_t addr, TwoWire &I2C_wire); // pass i2c connection from main program
   #endif //ESP8266|NAU7802_SOFTWAREWIRE|Default
 
   long readADC();
@@ -145,7 +145,7 @@ class NAU7802 {
   #ifdef NAU7802_SOFTWAREWIRE
     SoftwareWire wire = SoftwareWire(2,3);
   #else
-    TwoWire *wire; // pass through wire from the main program, instead of hard coding it here
+    TwoWire *_wire; // pass through wire from the main program, instead of hard coding it here
   #endif //NAU7802_SOFTWAREWIRE
 
   uint8_t _i2caddr;
